@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>App Cloud</title>
+</head>
+<body>
+
+<h1>Enviar mensaje a la nube </h1>
+
+<input id="nombre" placeholder="Nombre">
+<br><br>
+
+<input id="mensaje" placeholder="Mensaje">
+<br><br>
+
+<button onclick="guardar()">Enviar</button>
+
+<p id="estado"></p>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+
+const  firebaseConfig = {
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.guardar = async function() {
+  const nombre = document.getElementById("nombre").value;
+  const mensaje = document.getElementById("mensaje").value;
+
+  await addDoc(collection(db, "mensajes"), {
+    nombre,
+    mensaje,
+  });
+
+  document.getElementById("estado").innerText = "Guardado en la nube ";
+}
+
+</script>
+
+</body>
+</html>
