@@ -24,18 +24,19 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-
+// 🔥 TU CONFIGURACIÓN DE FIREBASE
 const firebaseConfig = {
-  apiKey: "TU_API_KEY",
-  authDomain: "TU_PROJECT.firebaseapp.com",
-  projectId: "TU_PROJECT_ID",
-  appId: "TU_APP_ID"
+  apiKey: "AIzaSyAX1XdAThaOEUDuH5PtHBps5iqGt4v3mZQ",
+  authDomain: "clase-auth.firebaseapp.com",
+  projectId: "clase-auth",
+  storageBucket: "clase-auth.firebasestorage.app",
+  messagingSenderId: "189316567260",
+  appId: "1:189316567260:web:f90ad13dcabe0070292419"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
-
 
 document.getElementById("login").onclick = async () => {
   const result = await signInWithPopup(auth, provider);
@@ -45,16 +46,14 @@ document.getElementById("login").onclick = async () => {
     "Bienvenido: " + user.displayName;
 };
 
-
 document.getElementById("logout").onclick = async () => {
   await signOut(auth);
 };
 
-
 onAuthStateChanged(auth, (user) => {
   if (user) {
     document.getElementById("info").innerText =
-      "Sesión activa: " + user.displayName;
+      "Sesion activa: " + user.displayName;
 
     document.getElementById("logout").style.display = "block";
   } else {
