@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mapa en tiempo real</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <style>
+    #map { height: 500px; }
+  </style>
+</head>
+<body>
+
+<h2>👀 Usuarios en tiempo real</h2>
+
+<div id="map"></div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA1pqt3k-Y-vhY8FdhWtyV0KQLnkFQNL0I",
+  authDomain: "clase-cloud-7074b.firebaseapp.com",
+  projectId: "clase-cloud-7074b",
+  storageBucket: "clase-cloud-7074b.firebasestorage.app",
+  messagingSenderId: "722168060577",
+  appId: "1:722168060577:web:57905c687078225ec72ee0"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// mapa
+const map = L.map('map').setView([0, 0], 2);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: 'OpenStreetMap'
+}).addTo(map);
+
+let markers = [];
+
+onSnapshot(collection(db, "users"), (snapshot) => {
+
+  markers.forEach(m => map.removeLayer(m));
+  markers = [];
+
+  snapshot.forEach(doc => {
+    const d = doc.data();
+
+    const marker = L.marker([d.lat, d.lng])
+      .addTo(map)
+      .bindPopup("👤 " + d.name);
+
+    markers.push(marker);
+  });
+
+});
+
+</script>
+
+</body>
+</html>
