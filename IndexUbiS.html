@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Enviar ubicación</title>
+</head>
+<body>
+
+<h2>Enviar ubicación</h2>
+
+<input id="name" placeholder="Tu nombre">
+<button onclick="enviar()">Compartir ubicación</button>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA1pqt3k-Y-vhY8FdhWtyV0KQLnkFQNL0I",
+  authDomain: "clase-cloud-7074b.firebaseapp.com",
+  projectId: "clase-cloud-7074b",
+  storageBucket: "clase-cloud-7074b.firebasestorage.app",
+  messagingSenderId: "722168060577",
+  appId: "1:722168060577:web:57905c687078225ec72ee0"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.enviar = function () {
+
+  const name = document.getElementById("name").value;
+
+  navigator.geolocation.getCurrentPosition(async (pos) => {
+
+    await addDoc(collection(db, "users"), {
+      name: name,
+      lat: pos.coords.latitude,
+      lng: pos.coords.longitude,
+      time: Date.now()
+    });
+
+    alert("Ubicación enviada a la base de datos");
+
+  });
+
+}
+
+</script>
+
+</body>
+</html>
