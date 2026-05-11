@@ -1,9 +1,7 @@
 productos
 
-
-
 {
   "nombre": "Camiseta deportiva",
-  "descripcion": "Ropa ligera para entrenamiento",
-  "imagen": "URL STORAGE"
+  "descripcion": "Ropa ligera",
+  "imagen": "https://url-imagen.jpg"
 }
